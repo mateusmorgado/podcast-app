@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Linking, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, Linking, Text, TouchableOpacity, View } from 'react-native';
 import { CONFIG } from '../config';
 import { ExclusiveEpisode, isSubscriber, listExclusive, signedAudioUrl } from '../lib/supabase';
 import { playEpisode } from '../lib/player';
@@ -60,12 +60,14 @@ export default function ExclusiveScreen({ signedIn, onNeedLogin }: Props) {
       contentContainerStyle={{ padding: 16, gap: 12 }}
       renderItem={({ item }) => (
         <TouchableOpacity
-          onPress={async () =>
-            playEpisode(
-              { id: item.id, title: item.title, audioUrl: await signedAudioUrl(item.audio_path) },
-              CONFIG.appName,
-            )
-          }
+          onPress={async () => {
+            try {
+              const audioUrl = await signedAudioUrl(item.audio_path);
+              await playEpisode({ id: item.id, title: item.title, audioUrl }, CONFIG.appName);
+            } catch {
+              Alert.alert('Erro', 'Não foi possível tocar este episódio.');
+            }
+          }}
           style={{ backgroundColor: '#151517', borderRadius: 12, padding: 12 }}>
           <Text style={{ color: '#fff', fontWeight: '600' }}>{item.title}</Text>
           {item.description ? <Text style={{ color: '#888', marginTop: 4 }}>{item.description}</Text> : null}

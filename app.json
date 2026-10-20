@@ -7,11 +7,22 @@
     "scheme": "podcastapp",
     "ios": {
       "bundleIdentifier": "br.com.podcaster.app",
-      "infoPlist": { "UIBackgroundModes": ["audio"] }
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     },
     "android": {
       "package": "br.com.podcaster.app",
-      "permissions": ["FOREGROUND_SERVICE", "FOREGROUND_SERVICE_MEDIA_PLAYBACK", "WAKE_LOCK"]
-    }
+      "permissions": [
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_MEDIA_PLAYBACK",
+        "WAKE_LOCK"
+      ]
+    },
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }

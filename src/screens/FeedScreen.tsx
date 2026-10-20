@@ -7,6 +7,7 @@ import { playEpisode } from '../lib/player';
 export default function FeedScreen() {
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const load = async () => {
@@ -17,6 +18,7 @@ export default function FeedScreen() {
       setError(e.message ?? 'Erro ao carregar');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   };
 
@@ -31,8 +33,11 @@ export default function FeedScreen() {
     <FlatList
       data={episodes}
       keyExtractor={(e) => e.id}
-      refreshing={loading}
-      onRefresh={load}
+      refreshing={refreshing}
+      onRefresh={() => {
+        setRefreshing(true);
+        load();
+      }}
       contentContainerStyle={{ padding: 16, gap: 12 }}
       renderItem={({ item }) => (
         <TouchableOpacity

@@ -28,5 +28,5 @@ React Native (Expo) app for a podcaster: public episodes from their RSS feed, ex
 - No admin screen: the podcaster uploads exclusive audio and adds rows in the Supabase dashboard.
 - Subscription is matched by email, so the buyer must pay with the same email they used in the app.
 - Icons, splash screen and store assets are not included.
-- Not yet tested on a device. Expect small fixes on first run.
+- Not yet tested on a device. TypeScript passes and the JS bundles for Android and iOS (`npx expo export`).
 - Check current Apple/Google in-app purchase rules for Brazil before publishing.
