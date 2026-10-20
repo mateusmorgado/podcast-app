@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Podcast App",
+    "slug": "podcast-app",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "podcastapp",
+    "ios": {
+      "bundleIdentifier": "br.com.podcaster.app",
+      "infoPlist": { "UIBackgroundModes": ["audio"] }
+    },
+    "android": {
+      "package": "br.com.podcaster.app",
+      "permissions": ["FOREGROUND_SERVICE", "FOREGROUND_SERVICE_MEDIA_PLAYBACK", "WAKE_LOCK"]
+    }
+  }
+}
