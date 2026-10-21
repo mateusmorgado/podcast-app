@@ -8,6 +8,15 @@ React Native (Expo) app for a podcaster: public episodes from their RSS feed, ex
 - Mercado Pago Subscriptions: the podcaster's own account, money goes straight to them
 - Supabase Edge Function: receives the payment webhook and unlocks the subscriber
 
+## Look and feel
+Colors, fonts and card styles live in `src/theme.ts` (currently the "Me Conte Uma Fofoca" identity: pastel backgrounds,
+black EP tags, outlined white boxes, Barlow Condensed). Swap it per podcaster together with `src/config.ts`.
+
+## Preview without a device
+`CONFIG.demoMode` (on by default) shows sample episodes from `src/lib/demo.ts` instead of the feed and Supabase.
+`scripts/build-web-preview.sh` builds a static web version into `dist-web/` that can be hosted in any folder.
+Turn `demoMode` off once the real feed URL and Supabase keys are set.
+
 ## Setup
 1. `npm install`
 2. Edit `src/config.ts`: feed URL, Supabase keys, subscription link, name, color.

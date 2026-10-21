@@ -1,6 +1,8 @@
 // White-label config: one file per podcaster. Change these and rebuild.
 export const CONFIG = {
-  appName: 'Podcast App',
+  appName: 'Me Conte Uma Fofoca',
+  // Shows sample episodes instead of reading the feed and Supabase. Turn off once real URLs are set.
+  demoMode: true,
   // Public feed from the podcaster's existing host (Spotify for Creators, Podigee, etc.)
   publicFeedUrl: 'https://example.com/feed.xml',
   supabaseUrl: 'https://YOUR-PROJECT.supabase.co',

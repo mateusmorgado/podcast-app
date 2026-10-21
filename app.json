@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Podcast App",
+    "name": "Me Conte Uma Fofoca",
     "slug": "podcast-app",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -22,7 +22,13 @@
       ]
     },
     "plugins": [
-      "expo-asset"
-    ]
+      "expo-asset",
+      "expo-font"
+    ],
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "name": "Me Conte Uma Fofoca"
+    }
   }
 }

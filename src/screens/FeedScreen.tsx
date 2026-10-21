@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text } from 'react-native';
 import { CONFIG } from '../config';
 import { Episode, fetchFeed } from '../lib/rss';
+import { DEMO_EPISODES } from '../lib/demo';
 import { playEpisode } from '../lib/player';
+import EpisodeCard from '../components/EpisodeCard';
+import { COLORS, FONTS } from '../theme';
+
+// Feed images are URLs; demo covers are bundled assets (a number on native, an object on web).
+export const imageSource = (image?: string | number) =>
+  image == null ? undefined : typeof image === 'string' ? { uri: image } : image;
 
 export default function FeedScreen() {
   const [episodes, setEpisodes] = useState<Episode[]>([]);
@@ -13,7 +20,7 @@ export default function FeedScreen() {
   const load = async () => {
     try {
       setError(null);
-      setEpisodes(await fetchFeed(CONFIG.publicFeedUrl));
+      setEpisodes(CONFIG.demoMode ? DEMO_EPISODES : await fetchFeed(CONFIG.publicFeedUrl));
     } catch (e: any) {
       setError(e.message ?? 'Erro ao carregar');
     } finally {
@@ -26,8 +33,8 @@ export default function FeedScreen() {
     load();
   }, []);
 
-  if (loading) return <ActivityIndicator style={{ marginTop: 40 }} color={CONFIG.accentColor} />;
-  if (error) return <Text style={{ color: '#f66', padding: 16 }}>{error}</Text>;
+  if (loading) return <ActivityIndicator style={{ marginTop: 40 }} color={COLORS.ink} />;
+  if (error) return <Text style={{ color: COLORS.ink, fontFamily: FONTS.semibold, padding: 16 }}>{error}</Text>;
 
   return (
     <FlatList
@@ -38,19 +45,17 @@ export default function FeedScreen() {
         setRefreshing(true);
         load();
       }}
-      contentContainerStyle={{ padding: 16, gap: 12 }}
-      renderItem={({ item }) => (
-        <TouchableOpacity
+      contentContainerStyle={{ padding: 16, gap: 14 }}
+      renderItem={({ item, index }) => (
+        <EpisodeCard
+          index={index}
+          featured={index === 0}
+          title={item.title}
+          description={item.description}
+          number={item.number}
+          image={imageSource(item.image)}
           onPress={() => playEpisode(item, CONFIG.appName)}
-          style={{ flexDirection: 'row', gap: 12, backgroundColor: '#151517', borderRadius: 12, padding: 12 }}>
-          {item.image ? (
-            <Image source={{ uri: item.image }} style={{ width: 64, height: 64, borderRadius: 8 }} />
-          ) : null}
-          <View style={{ flex: 1 }}>
-            <Text style={{ color: '#fff', fontWeight: '600' }} numberOfLines={2}>{item.title}</Text>
-            <Text style={{ color: '#888', marginTop: 4 }} numberOfLines={2}>{item.description}</Text>
-          </View>
-        </TouchableOpacity>
+        />
       )}
     />
   );

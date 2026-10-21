@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Alert, SafeAreaView, Text, TextInput, TouchableOpacity } from 'react-native';
+import { Alert, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { supabase } from '../lib/supabase';
-import { CONFIG } from '../config';
+import { Button, Sparkle, heading } from '../components/ui';
+import { BORDER, COLORS, FONTS } from '../theme';
 
 export default function LoginScreen({ onCancel }: { onCancel: () => void }) {
   const [email, setEmail] = useState('');
@@ -20,45 +21,54 @@ export default function LoginScreen({ onCancel }: { onCancel: () => void }) {
   };
 
   const input = {
-    backgroundColor: '#1c1c1f',
-    color: '#fff',
+    backgroundColor: COLORS.paper,
+    ...BORDER,
+    color: COLORS.ink,
+    fontFamily: FONTS.semibold,
+    fontSize: 18,
     padding: 14,
-    borderRadius: 10,
+    borderRadius: 12,
     marginBottom: 12,
   } as const;
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#0b0b0c', padding: 24, justifyContent: 'center' }}>
-      <Text style={{ color: '#fff', fontSize: 24, fontWeight: '700', marginBottom: 24 }}>Entrar</Text>
-      <TextInput
-        style={input}
-        placeholder="E-mail"
-        placeholderTextColor="#777"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={input}
-        placeholder="Senha"
-        placeholderTextColor="#777"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <TouchableOpacity
-        disabled={busy}
-        onPress={() => submit('in')}
-        style={{ backgroundColor: CONFIG.accentColor, padding: 14, borderRadius: 10, alignItems: 'center' }}>
-        <Text style={{ color: '#fff', fontWeight: '600' }}>Entrar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity disabled={busy} onPress={() => submit('up')} style={{ padding: 14, alignItems: 'center' }}>
-        <Text style={{ color: '#ccc' }}>Criar conta</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onCancel} style={{ alignItems: 'center' }}>
-        <Text style={{ color: '#888' }}>Voltar</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.pink }}>
+      <View style={{ flex: 1, padding: 24, justifyContent: 'center' }}>
+        <Sparkle size={26} style={{ alignSelf: 'flex-end' }} />
+        <Text style={[heading, { fontSize: 40, marginBottom: 4 }]}>Entrar</Text>
+        <Text style={{ fontFamily: FONTS.semibold, fontSize: 17, color: COLORS.ink, marginBottom: 20 }}>
+          Use o mesmo e-mail da sua assinatura.
+        </Text>
+        <TextInput
+          style={input}
+          placeholder="E-mail"
+          placeholderTextColor="#888"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={input}
+          placeholder="Senha"
+          placeholderTextColor="#888"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <Button label="Entrar" disabled={busy} onPress={() => submit('in')} style={{ marginTop: 4 }} />
+        <Button
+          label="Criar conta"
+          disabled={busy}
+          onPress={() => submit('up')}
+          color={COLORS.paper}
+          textColor={COLORS.ink}
+          style={{ marginTop: 12 }}
+        />
+        <TouchableOpacity onPress={onCancel} style={{ alignItems: 'center', padding: 16 }}>
+          <Text style={{ fontFamily: FONTS.semibold, fontSize: 16, color: COLORS.ink }}>Voltar</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
